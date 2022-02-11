@@ -2,8 +2,6 @@
 
 ![](res/skriptus.png)
 
-
-git plus
 ## ToDo
 - [ ] Make multiple texts selectable (like in notion)
 	- [ ] Ahh yes, Notion; Move to Notion
@@ -19,7 +17,11 @@ git plus
 	- [ ] Sidebar: Treeview / All in one column
 	- [ ] Sidebar sort by (date / filename / name)
 		- [ ] Asc. / Desc.
-
+	- [ ] Blur / Darken skript is sidebar is opened
+		- [ ] Speed
+	- [ ] Autocorrection?
+	- [ ] Autocomplete (Scene: INT, EXT, etc. / characters / etc.)
+	- [ ] Spellcheck
 - [ ] Shortcuts to change element type
 - [ ] Own element types?
 	- [ ] CSS
@@ -27,10 +29,15 @@ git plus
 - [X] Create Logo
 - [ ] Create Example skripts and images
 - [ ] Write a better readme
+	- [ ] Add install instructions
+	- [ ] Add configuration instructions (css)
+	- [ ] Add tutorial
 - [ ] Add "About" page
 - [ ] Make Logo smaller and add white background
 - [ ] BUG: Focus first element when creating a new skript
-- [ ] Add context menu
+- [X] Add context menu
 	- [ ] Change type of element
 	- [ ] Delete element
 	- [ ] Duplicate element
+- [X] Capitalize context-menu info label
+- [ ] Blur / Darken skript if sidebar is opened (Slowly)
