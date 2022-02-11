@@ -1,5 +1,6 @@
-# Skriptus
+# Skriptus 📑
 
+![](res/skriptus.png)
 
 
 
