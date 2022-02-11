@@ -91,6 +91,18 @@ function getNextType(type) {
 	}
 }
 
+function insertAt(haystack, needle, index) {
+	let newHaystack = [];
+	haystack.forEach((item, i) => {
+		if (i == index)
+			newHaystack.push(needle);
+
+		newHaystack.push(item);
+	});
+
+	return newHaystack;
+}
+
 function renderSkript() {
 	skriptEl.innerHTML = "";
 
@@ -108,22 +120,12 @@ function renderSkript() {
 		(function(elIndex) {
 			line.addEventListener("input", function(event) {
 				if (event.inputType == "insertParagraph") {
-					let newContent = [];
-
-					skript.content.forEach((pi, pix) => {
-						newContent.push(pi);
-
-						if (elIndex == pix) {
-							newContent.push({
-								type: getNextType(pi.type),
-								text: ""
-							});
-						}
-					});
+					skript.content = insertAt(skript.content, {
+						type: getNextType(skript.content[elIndex].type),
+						text: ""
+					}, elIndex + 1);
 
 					_focusedContentIndex = elIndex + 1;
-
-					skript.content = newContent;
 
 					skript.content[elIndex].text = event.target.innerHTML;
 					renderSkript();
@@ -142,11 +144,7 @@ function renderSkript() {
 				if (event.key == "Backspace" && skript.content[elIndex].text == "") {
 					// Remove this element
 					delete skript.content[elIndex];
-
-					// Remove undefined content
-					skript.content = skript.content.filter((value, index, array) => {
-						return value != undefined;
-					});
+					skriptContentDeleteUndefined();
 
 					renderSkript();
 				}
@@ -176,10 +174,40 @@ function getChildIndex(el) {
 	return [...el.parentElement.children].indexOf(el);
 }
 
+function skriptContentDeleteUndefined() {
+	// Because the deleted element is not deleted, but instead set to "undefined",
+	// delete all undefined elements
+
+	skript.content = skript.content.filter((value, index, array) => {
+		return value != undefined;
+	});
+}
+
 function changeTypeFromEvent(event, newType) {
 	skript.content[getChildIndex(event.target)].type = newType;
 	renderSkript();
 }
+
+function deleteElementFromEvent(event) {
+	delete skript.content[getChildIndex(event.target)];
+	skriptContentDeleteUndefined();
+
+	renderSkript();
+}
+
+function duplicateElementFromEvent(event) {
+	let elIndex = getChildIndex(event.target);
+	let el = skript.content[elIndex];
+	skript.content = insertAt(skript.content, {
+		type: el.type,
+		text: el.text
+	}, elIndex + 1);
+
+	_focusedContentIndex = elIndex + 1;
+
+	renderSkript();
+}
+
 
 function contextMenuClose() {
 	contextMenuIsOpen = false;
@@ -275,11 +303,12 @@ document.body.addEventListener("contextmenu", function(event) {
 			{ label: "Change to", type: "category", children: [
 				{ label: "Scene", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "scene")}},
 				{ label: "Character", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "character")}},
-				{ label: "Dialogue", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "dialogue")}}
+				{ label: "Dialogue", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "dialogue")}},
+				{ label: "Parentheses", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "parentheses")}}
 			]},
 			{ type: "seperator"},
-			{ label: "Duplicate", color: "#3d7882", callback: () => {console.log("DUPLICATE!")} },
-			{ label: "Delete", color: "#8c3232", callback: () => {console.log("DELETE!")} }
+			{ label: "Duplicate", color: "#3d7882", callback: () => {duplicateElementFromEvent(event)} },
+			{ label: "Delete", color: "#8c3232", callback: () => {deleteElementFromEvent(event)} }
 		]);
 	} else {
 		contextMenuClose();

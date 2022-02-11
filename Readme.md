@@ -2,6 +2,14 @@
 
 ![](res/skriptus.png)
 
+## Elements
+- Scene
+- Character
+- Dialogue
+- Parentheses
+- Transition (WIP)
+- Action (WIP)
+
 ## ToDo
 - [ ] Make multiple texts selectable (like in notion)
 	- [ ] Ahh yes, Notion; Move to Notion
@@ -41,11 +49,21 @@
 - [ ] Make Logo smaller and add white background
 - [ ] BUG: Focus first element when creating a new skript
 - [X] Add context menu
-	- [ ] Change type of element
-	- [ ] Delete element
-	- [ ] Duplicate element
+	- [X] Change type of element
+	- [X] Delete element
+	- [X] Duplicate element
 - [X] Capitalize context-menu info label
 - [ ] Blur / Darken skript if sidebar is opened (Slowly)
 - [ ] BUG: Inserting a new paragraph leaves empty line
 - [ ] BUG: Inserting a new paragraph doesn't even work sometimes (e.g. on a scene element)
 - [ ] Add key up and down feature
+- [ ] Move functions from skriptus.js to context.js and utils.js
+- Elements to add
+	- Transition
+		- [ ] CSS
+		- [ ] Context-Menu
+		- [ ] getNextType()
+	- Action
+		- [ ] CSS
+		- [ ] Context-Menu
+		- [ ] getNextType()
