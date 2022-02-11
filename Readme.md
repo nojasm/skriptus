@@ -28,3 +28,4 @@
 - [ ] Create Example skripts and images
 - [ ] Write a better readme
 - [ ] Add "About" page
+- [ ] Make Logo smaller and add white background
