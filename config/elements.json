@@ -1,0 +1,32 @@
+[
+	{
+		"name": "Scene",
+		"class": "skript__scene",
+		"nextElement": "Character"
+	},
+	{
+		"name": "Character",
+		"class": "skript__character",
+		"nextElement": "Dialogue"
+	},
+	{
+		"name": "Dialogue",
+		"class": "skript__dialogue",
+		"nextElement": "Dialogue"
+	},
+	{
+		"name": "Parentheses",
+		"class": "skript__parentheses",
+		"nextElement": "Dialogue"
+	},
+	{
+		"name": "Action",
+		"class": "skript__action",
+		"nextElement": "Dialogue"
+	},
+	{
+		"name": "Transition",
+		"class": "skript__transition",
+		"nextElement": "Character"
+	}
+]
