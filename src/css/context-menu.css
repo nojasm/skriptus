@@ -1,0 +1,67 @@
+#context-menu {
+	position: absolute;
+	display: none;
+
+	font-family: Roboto;
+	font-size: 14px;
+
+	background-color: white;
+	box-shadow: 0 0 5px #ccc;
+
+	width: 100px;
+}
+
+.context-menu__info-item {
+	padding: 5px 7px 5px 7px;
+	margin: 0;
+}
+
+.context-menu__category {
+	padding: 5px 0 5px 7px;
+	margin: 0;
+
+	user-select: none;
+}
+
+.context-menu__category-wrapper {
+	margin: 0 0 3px 0;
+}
+
+.context-menu__child-item {
+	padding: 3px 5px 3px 15px;
+	margin: 0;
+
+	user-select: none;
+	cursor: pointer;
+}
+
+
+.context-menu__child-item:hover {
+	background-color: #f7f7f7;
+}
+
+.context-menu__child-item:active {
+	background-color: #f0f0f0;
+}
+
+
+.context-menu__seperator {
+	border-bottom: 1px solid #eee;
+	margin: 0;
+}
+
+.context-menu__item {
+	padding: 5px 7px 5px 7px;
+	margin: 0;
+
+	user-select: none;
+	cursor: pointer;
+}
+
+.context-menu__item:hover {
+	background-color: #f7f7f7;
+}
+
+.context-menu__item:active {
+	background-color: #f0f0f0;
+}

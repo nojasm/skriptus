@@ -167,12 +167,124 @@ function loadSkript(data) {
 	renderSkript();
 }
 
+function getTypeFromClass(type) {
+	let t = type.split("__")[1];
+	return t.charAt(0).toUpperCase() + t.substr(1);
+}
+
+function getChildIndex(el) {
+	return [...el.parentElement.children].indexOf(el);
+}
+
+function changeTypeFromEvent(event, newType) {
+	skript.content[getChildIndex(event.target)].type = newType;
+	renderSkript();
+}
+
+function contextMenuClose() {
+	contextMenuIsOpen = false;
+	contextMenu.style.display = "none";
+}
+
+function contextMenuOpen(posX, posY, options) {
+	// options = [{label: ..., callback: ...}]
+
+	contextMenu.style.display = "initial";
+	contextMenu.style.left = posX + "px";
+	contextMenu.style.top = posY + "px";
+	contextMenuIsOpen = true;
+
+	contextMenu.innerHTML = "";
+
+	options.forEach((item, i) => {
+		let cmItem = document.createElement("p");
+
+		if (item.type == "category") {
+			let categoryWrapperElement = document.createElement("div");
+			cmItem.innerHTML = item.label;
+			cmItem.classList.add("context-menu__category");
+			categoryWrapperElement.classList.add("context-menu__category-wrapper");
+			item.children.forEach((childItem, childItemIndex) => {
+				let childItemElement = document.createElement("p");
+
+				if (childItem.color != undefined)
+					childItemElement.style.color = childItem.color;
+
+				childItemElement.classList.add("context-menu__child-item");
+				childItemElement.innerHTML = childItem.label;
+				childItemElement.addEventListener("click", () => {
+					contextMenuClose();
+					childItem.callback();
+				});
+
+				categoryWrapperElement.appendChild(childItemElement);
+			});
+
+			contextMenu.appendChild(cmItem);
+			contextMenu.appendChild(categoryWrapperElement);
+
+		} else if (item.type == undefined || item.type == "button") {
+			cmItem.classList.add("context-menu__item");
+
+			if (item.color != undefined)
+				cmItem.style.color = item.color;
+
+			cmItem.addEventListener("click", () => {
+				contextMenuClose();
+				item.callback();
+			});
+
+			cmItem.innerHTML = item.label;
+			contextMenu.appendChild(cmItem);
+
+		} else if (item.type == "info") {
+			cmItem.classList.add("context-menu__info-item");
+			cmItem.innerHTML = item.label;
+			contextMenu.appendChild(cmItem);
+
+		} else if (item.type == "seperator") {
+			cmItem.classList.add("context-menu__seperator");
+			contextMenu.appendChild(cmItem);
+		}
+
+	});
+}
+
+
 var sidebarButton = document.getElementById("sidebar__button");
 var sidebar = document.getElementById("sidebar");
 var skriptEl = document.getElementById("skript");
 
 var sidebarIsOpen = false;
 var _focusedContentIndex = null;
+
+var contextMenu = document.getElementById("context-menu");
+var contextMenuIsOpen = false;
+
+document.body.addEventListener("click", function(event) {
+	if (event.target.id != "context-menu" && event.target.parentElement.id != "context-menu") {
+		contextMenuClose();
+	}
+});
+
+document.body.addEventListener("contextmenu", function(event) {
+	if (event.target.classList.contains("skript__line")) {
+		contextMenuOpen(event.clientX, event.clientY, [
+			{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
+			{ type: "seperator"},
+			{ label: "Change to", type: "category", children: [
+				{ label: "Scene", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "scene")}},
+				{ label: "Character", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "character")}},
+				{ label: "Dialogue", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "dialogue")}}
+			]},
+			{ type: "seperator"},
+			{ label: "Duplicate", color: "#3d7882", callback: () => {console.log("DUPLICATE!")} },
+			{ label: "Delete", color: "#8c3232", callback: () => {console.log("DELETE!")} }
+		]);
+	} else {
+		contextMenuClose();
+	}
+});
 
 sidebarButton.addEventListener("click", function() {
 	sidebarIsOpen = !sidebarIsOpen;
