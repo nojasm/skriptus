@@ -7,8 +7,8 @@
 - Character
 - Dialogue
 - Parentheses
-- Transition (WIP)
-- Action (WIP)
+- Transition
+- Action
 
 ## ToDo
 - [ ] Make multiple texts selectable (like in notion)
@@ -20,6 +20,8 @@
 - [ ] Build Skriptus
 - [ ] Add global ettings
 	- [ ] Themes
+		- [ ] Dark mode
+		- [ ] Set theme for light / dark mode
 	- [ ] Default folders
 	- [ ] Fonts (Family & Size)
 	- [ ] Sidebar: Treeview / All in one column
@@ -31,10 +33,9 @@
 	- [ ] Autocomplete (Scene: INT, EXT, etc. / characters / etc.)
 	- [ ] Spellcheck
 - [ ] Add project settings
-	- [ ] Theme
+	- [ ] Style
 	- [ ] Fonts
 	- [ ] Single page / Multiple pages
-
 - [ ] Shortcuts to change element type
 - [ ] Own element types?
 	- [ ] CSS
@@ -45,8 +46,10 @@
 	- [ ] Add install instructions
 	- [ ] Add configuration instructions (css)
 	- [ ] Add tutorial
+	- [ ] Add instructions for adding new elements
+	- [ ] Create Wiki on GitHub
 - [ ] Add "About" page
-- [ ] Make Logo smaller and add white background
+- [X] Make Logo smaller and add white background
 - [ ] BUG: Focus first element when creating a new skript
 - [X] Add context menu
 	- [X] Change type of element
@@ -57,13 +60,16 @@
 - [ ] BUG: Inserting a new paragraph leaves empty line
 - [ ] BUG: Inserting a new paragraph doesn't even work sometimes (e.g. on a scene element)
 - [ ] Add key up and down feature
-- [ ] Move functions from skriptus.js to context.js and utils.js
+- [X] Move functions from skriptus.js to context.js and utils.js
 - Elements to add
 	- Transition
-		- [ ] CSS
-		- [ ] Context-Menu
-		- [ ] getNextType()
+		- [X] CSS
+		- [X] Context-Menu
+		- [X] getNextType()
 	- Action
-		- [ ] CSS
-		- [ ] Context-Menu
-		- [ ] getNextType()
+		- [X] CSS
+		- [X] Context-Menu
+		- [X] getNextType()
+- [ ] "Export" option in File
+- [ ] Export as Fountain file
+- [ ] Export as PDF
