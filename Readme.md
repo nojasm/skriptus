@@ -26,3 +26,4 @@
 - [ ] Create Logo
 - [ ] Create Example skripts and images
 - [ ] Write a better readme
+- [ ] Add "About" page
