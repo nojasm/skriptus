@@ -29,3 +29,4 @@
 - [ ] Write a better readme
 - [ ] Add "About" page
 - [ ] Make Logo smaller and add white background
+- [ ] BUG: Focus first element when creating a new skript
