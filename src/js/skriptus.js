@@ -1,16 +1,6 @@
 const ipcRenderer = require("electron").ipcRenderer;
+const { genGUID, insertAt, getTypeFromClass, getChildIndex } = require("./js/utils.js");
 
-
-function genGUID() {
-	let _GUID = "";
-	let hex = "0123456789abcdef";
-
-	for (var i = 0; i < 32; i++) {
-		_GUID += hex[Math.floor(Math.random() * hex.length)];
-	}
-
-	return _GUID;
-}
 
 
 ipcRenderer.on("open", function() {
@@ -56,53 +46,6 @@ ipcRenderer.on("new", function() {
 });
 
 
-var skript = {
-	name: "Example Skript",
-	GUID: genGUID(),
-	content: [
-		{ type: "scene",
-		  text: "INT. At the dinner table" },
-		{ type: "character",
-		  text: "Mark" },
-		{ type: "dialogue",
-		  text: "Hey." },
-		{ type: "parentheses",
-		  text: "He slowly looks up" },
-		{ type: "dialogue",
-		  text: "It has been a rough time. But now I can finally use this piece of software that helps me so god damn much" },
-		{ type: "character",
-		  text: "Anne" },
-		{ type: "dialogue",
-		  text: "Haha, what a story Mark" }
-	]
-}
-
-
-function getNextType(type) {
-	switch (type) {
-		case "scene":
-			return "character";
-		case "character":
-			return "dialogue";
-		case "dialogue":
-			return "dialogue";
-		case "parentheses":
-			return "dialogue";
-	}
-}
-
-function insertAt(haystack, needle, index) {
-	let newHaystack = [];
-	haystack.forEach((item, i) => {
-		if (i == index)
-			newHaystack.push(needle);
-
-		newHaystack.push(item);
-	});
-
-	return newHaystack;
-}
-
 function renderSkript() {
 	skriptEl.innerHTML = "";
 
@@ -111,7 +54,7 @@ function renderSkript() {
 	skript.content.forEach((el, i) => {
 		let line = document.createElement("p");
 		line.classList.add("skript__line");
-		line.classList.add("skript__" + el.type);
+		line.classList.add(getClassFromTypeName(el.type));
 
 		line.innerHTML = el.text;
 
@@ -160,19 +103,30 @@ function renderSkript() {
 	});
 }
 
+function getNextType(type) {
+	elements.forEach((el, index) => {
+		if (el.name.toLowerCase() == type) {
+			return el.nextElement.toLowerCase();
+		}
+	});
+}
+
+function getClassFromTypeName(name) {
+	let _class = "";
+	elements.forEach((el, index) => {
+		if (el.name.toLowerCase() == name.toLowerCase()) {
+			_class = el.class;
+		}
+	});
+
+	return _class;
+}
+
 function loadSkript(data) {
 	skript = data;
 	renderSkript();
 }
 
-function getTypeFromClass(type) {
-	let t = type.split("__")[1];
-	return t.charAt(0).toUpperCase() + t.substr(1);
-}
-
-function getChildIndex(el) {
-	return [...el.parentElement.children].indexOf(el);
-}
 
 function skriptContentDeleteUndefined() {
 	// Because the deleted element is not deleted, but instead set to "undefined",
@@ -209,75 +163,8 @@ function duplicateElementFromEvent(event) {
 }
 
 
-function contextMenuClose() {
-	contextMenuIsOpen = false;
-	contextMenu.style.display = "none";
-}
-
-function contextMenuOpen(posX, posY, options) {
-	// options = [{label: ..., callback: ...}]
-
-	contextMenu.style.display = "initial";
-	contextMenu.style.left = posX + "px";
-	contextMenu.style.top = posY + "px";
-	contextMenuIsOpen = true;
-
-	contextMenu.innerHTML = "";
-
-	options.forEach((item, i) => {
-		let cmItem = document.createElement("p");
-
-		if (item.type == "category") {
-			let categoryWrapperElement = document.createElement("div");
-			cmItem.innerHTML = item.label;
-			cmItem.classList.add("context-menu__category");
-			categoryWrapperElement.classList.add("context-menu__category-wrapper");
-			item.children.forEach((childItem, childItemIndex) => {
-				let childItemElement = document.createElement("p");
-
-				if (childItem.color != undefined)
-					childItemElement.style.color = childItem.color;
-
-				childItemElement.classList.add("context-menu__child-item");
-				childItemElement.innerHTML = childItem.label;
-				childItemElement.addEventListener("click", () => {
-					contextMenuClose();
-					childItem.callback();
-				});
-
-				categoryWrapperElement.appendChild(childItemElement);
-			});
-
-			contextMenu.appendChild(cmItem);
-			contextMenu.appendChild(categoryWrapperElement);
-
-		} else if (item.type == undefined || item.type == "button") {
-			cmItem.classList.add("context-menu__item");
-
-			if (item.color != undefined)
-				cmItem.style.color = item.color;
-
-			cmItem.addEventListener("click", () => {
-				contextMenuClose();
-				item.callback();
-			});
-
-			cmItem.innerHTML = item.label;
-			contextMenu.appendChild(cmItem);
-
-		} else if (item.type == "info") {
-			cmItem.classList.add("context-menu__info-item");
-			cmItem.innerHTML = item.label;
-			contextMenu.appendChild(cmItem);
-
-		} else if (item.type == "seperator") {
-			cmItem.classList.add("context-menu__seperator");
-			contextMenu.appendChild(cmItem);
-		}
-
-	});
-}
-
+var skript = window.getStartupSkript();
+var elements = window.getElementsFromFile();
 
 var sidebarButton = document.getElementById("sidebar__button");
 var sidebar = document.getElementById("sidebar");
@@ -286,34 +173,7 @@ var skriptEl = document.getElementById("skript");
 var sidebarIsOpen = false;
 var _focusedContentIndex = null;
 
-var contextMenu = document.getElementById("context-menu");
-var contextMenuIsOpen = false;
 
-document.body.addEventListener("click", function(event) {
-	if (event.target.id != "context-menu" && event.target.parentElement.id != "context-menu") {
-		contextMenuClose();
-	}
-});
-
-document.body.addEventListener("contextmenu", function(event) {
-	if (event.target.classList.contains("skript__line")) {
-		contextMenuOpen(event.clientX, event.clientY, [
-			{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
-			{ type: "seperator"},
-			{ label: "Change to", type: "category", children: [
-				{ label: "Scene", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "scene")}},
-				{ label: "Character", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "character")}},
-				{ label: "Dialogue", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "dialogue")}},
-				{ label: "Parentheses", color: "#6e7544", callback: () => {changeTypeFromEvent(event, "parentheses")}}
-			]},
-			{ type: "seperator"},
-			{ label: "Duplicate", color: "#3d7882", callback: () => {duplicateElementFromEvent(event)} },
-			{ label: "Delete", color: "#8c3232", callback: () => {deleteElementFromEvent(event)} }
-		]);
-	} else {
-		contextMenuClose();
-	}
-});
 
 sidebarButton.addEventListener("click", function() {
 	sidebarIsOpen = !sidebarIsOpen;
