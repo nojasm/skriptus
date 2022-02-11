@@ -1,0 +1,34 @@
+{
+	"name": "Example Skript",
+	"GUID": "00000000000000000000000000000000",
+	"content": [
+		{
+			"type": "scene",
+			"text": "INT. At the dinner table"
+		},
+		{
+			"type": "character",
+			"text": "Mark"
+		},
+		{
+			"type": "dialogue",
+			"text": "Hey."
+		},
+		{
+			"type": "parentheses",
+			"text": "He slowly looks up"
+		},
+		{
+			"type": "dialogue",
+			"text": "It has been a rough time. But now I can finally use this piece of software that helps me so god damn much"
+		},
+		{
+			"type": "character",
+			"text": "Anne"
+		},
+		{
+			"type": "dialogue",
+			"text": "Haha, what a story Mark"
+		}
+	]
+}
