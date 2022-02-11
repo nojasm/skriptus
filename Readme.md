@@ -23,3 +23,6 @@
 - [ ] Own element types?
 	- [ ] CSS
 	- [ ] Comes after ...
+- [ ] Create Logo
+- [ ] Create Example skripts and images
+- [ ] Write a better readme
