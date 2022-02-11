@@ -3,7 +3,7 @@
 ![](res/skriptus.png)
 
 
-
+git plus
 ## ToDo
 - [ ] Make multiple texts selectable (like in notion)
 	- [ ] Ahh yes, Notion; Move to Notion
@@ -30,3 +30,7 @@
 - [ ] Add "About" page
 - [ ] Make Logo smaller and add white background
 - [ ] BUG: Focus first element when creating a new skript
+- [ ] Add context menu
+	- [ ] Change type of element
+	- [ ] Delete element
+	- [ ] Duplicate element
