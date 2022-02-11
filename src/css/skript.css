@@ -1,7 +1,7 @@
 .skript__line {
 	display: block;
 	font-family: Lora;
-	font-size: 15px;
+	font-size: 13px;
 
 	border: none;
 
@@ -42,4 +42,14 @@
 
 .skript__parentheses::after {
 	content: ")";
+}
+
+.skript__action {
+	font-style: italic;
+	width: 50%;
+}
+
+.skript__transition {
+	text-align: right;
+	width: 50%;
 }

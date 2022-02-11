@@ -3,7 +3,11 @@ const fs = require("fs");
 
 
 window.getSkriptFile = function (path) {
-	return JSON.parse(String(fs.readFileSync(path)));
+	try {
+		return JSON.parse(fs.readFileSync(path));
+	} catch (e) {
+		return false;
+	}
 }
 
 window.fileExists = function (path) {
@@ -14,6 +18,13 @@ window.writeSkriptFile = function (path, data) {
 	fs.writeFileSync(path, JSON.stringify(data, null, "\t"));
 }
 
+window.getElementsFromFile = function () {
+	return JSON.parse(String(fs.readFileSync("./config/elements.json")));
+}
+
+window.getStartupSkript = function () {
+	return window.getSkriptFile("./config/startup.skript");
+}
 
 window.openFileDialog = function () {
 	return dialog.showOpenDialogSync({
