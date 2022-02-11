@@ -10,7 +10,7 @@
 - [ ] Add folders to sidebar
 - [ ] Add quick-add button to sidebar
 - [ ] Build Skriptus
-- [ ] Add settings
+- [ ] Add global ettings
 	- [ ] Themes
 	- [ ] Default folders
 	- [ ] Fonts (Family & Size)
@@ -22,6 +22,11 @@
 	- [ ] Autocorrection?
 	- [ ] Autocomplete (Scene: INT, EXT, etc. / characters / etc.)
 	- [ ] Spellcheck
+- [ ] Add project settings
+	- [ ] Theme
+	- [ ] Fonts
+	- [ ] Single page / Multiple pages
+
 - [ ] Shortcuts to change element type
 - [ ] Own element types?
 	- [ ] CSS
@@ -41,3 +46,6 @@
 	- [ ] Duplicate element
 - [X] Capitalize context-menu info label
 - [ ] Blur / Darken skript if sidebar is opened (Slowly)
+- [ ] BUG: Inserting a new paragraph leaves empty line
+- [ ] BUG: Inserting a new paragraph doesn't even work sometimes (e.g. on a scene element)
+- [ ] Add key up and down feature
