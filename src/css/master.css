@@ -1,0 +1,112 @@
+* {
+	outline: none;
+}
+
+body {
+	background-color: #eee;
+	margin: 0;
+}
+
+@font-face {
+	font-family: Lora;
+	src: url("Lora.ttf");
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("Roboto/Roboto-Regular.ttf");
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("Roboto/Roboto-Bold.ttf");
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("Roboto/Roboto-Light.ttf");
+	font-weight: lighter;
+}
+
+#sidebar__wrapper {
+	width: 200px;
+	height: 100%;
+
+	z-index: 99;
+}
+
+#sidebar {
+	position: absolute;
+
+	margin: 0;
+
+	background-color: white;
+	box-shadow: 0 0 5px #ccc;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+
+	width: 200px;
+	height: 90%;
+
+	left: -200px;
+
+	z-index: 99;
+
+	transition: 500ms;
+}
+
+#sidebar__button {
+	position: absolute;
+
+	background-color: white;
+	box-shadow: 0 0 5px #ccc;
+	border: 1px solid #ccc;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+
+	padding: 5px;
+	margin-left: 0;
+
+	user-select: none;
+	cursor: pointer;
+
+	transition: 500ms;
+}
+
+.sidebar__skript {
+	font-family: Lora;
+	font-weight: 300;
+	font-size: 15px;
+
+	margin: 5px 0 5px 0;
+	padding: 3px 5px 3px 5px;
+
+	cursor: pointer;
+	user-select: none;
+}
+
+.sidebar__skript:hover {
+	background-color: #eee;
+}
+
+.sidebar__skript:active {
+	background-color: #ddd;
+}
+
+#main {}
+
+#skript {
+	display: block;
+
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 0 8px black;
+
+	width: 500px;
+	height: 800px;
+
+	padding: 50px;
+	margin: 25px auto 0 auto;
+}
