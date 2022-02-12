@@ -1,32 +1,38 @@
 [
 	{
-		"name": "Scene",
+		"name": "scene",
+		"prettyName": "Scene",
 		"class": "skript__scene",
-		"nextElement": "Character"
+		"nextElement": "character"
 	},
 	{
-		"name": "Character",
+		"name": "character",
+		"prettyName": "Character",
 		"class": "skript__character",
 		"nextElement": "Dialogue"
 	},
 	{
-		"name": "Dialogue",
+		"name": "dialogue",
+		"prettyName": "Dialogue",
 		"class": "skript__dialogue",
-		"nextElement": "Dialogue"
+		"nextElement": "dialogue"
 	},
 	{
-		"name": "Parentheses",
+		"name": "parentheses",
+		"prettyName": "Parentheses",
 		"class": "skript__parentheses",
-		"nextElement": "Dialogue"
+		"nextElement": "dialogue"
 	},
 	{
-		"name": "Action",
+		"name": "action",
+		"prettyName": "Action",
 		"class": "skript__action",
-		"nextElement": "Dialogue"
+		"nextElement": "dialogue"
 	},
 	{
-		"name": "Transition",
+		"name": "transition",
+		"prettyName": "Transition",
 		"class": "skript__transition",
-		"nextElement": "Character"
+		"nextElement": "character"
 	}
 ]

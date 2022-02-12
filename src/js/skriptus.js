@@ -1,5 +1,6 @@
 const ipcRenderer = require("electron").ipcRenderer;
 const { genGUID, insertAt, getTypeFromClass, getChildIndex } = require("./js/utils.js");
+const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
 
 
 
@@ -49,7 +50,7 @@ ipcRenderer.on("new", function() {
 function renderSkript() {
 	skriptEl.innerHTML = "";
 
-	document.getElementsByTagName("title")[0].innerHTML = skript.name;
+	document.getElementsByTagName("title")[0].innerHTML = "Skriptus (" + skript.name + ")";
 
 	skript.content.forEach((el, i) => {
 		let line = document.createElement("p");
@@ -63,10 +64,23 @@ function renderSkript() {
 		(function(elIndex) {
 			line.addEventListener("input", function(event) {
 				if (event.inputType == "insertParagraph") {
-					skript.content = insertAt(skript.content, {
-						type: getNextType(skript.content[elIndex].type),
-						text: ""
-					}, elIndex + 1);
+					// You can safely replace "<div><br></div>" with "", because if the user enters
+					// that exact string, it is "&lt;div&gt;&lt;br&gt;&lt;/div&gt"
+					event.target.innerHTML = event.target.innerHTML.replace("<div><br></div>", "");
+
+					if (elIndex == skript.content.length - 1) {
+						// Create new
+						skript.content.push({
+							type: getNextType(skript.content[elIndex].type),
+							text: ""
+						});
+					} else {
+						// Insert
+						skript.content = insertAt(skript.content, {
+							type: getNextType(skript.content[elIndex].type),
+							text: ""
+						}, elIndex + 1);
+					}
 
 					_focusedContentIndex = elIndex + 1;
 
@@ -104,17 +118,20 @@ function renderSkript() {
 }
 
 function getNextType(type) {
+	let _name = "dialogue";
 	elements.forEach((el, index) => {
-		if (el.name.toLowerCase() == type) {
-			return el.nextElement.toLowerCase();
+		if (el.name == type) {
+			_name = el.nextElement;
 		}
 	});
+
+	return _name;
 }
 
 function getClassFromTypeName(name) {
 	let _class = "";
 	elements.forEach((el, index) => {
-		if (el.name.toLowerCase() == name.toLowerCase()) {
+		if (el.name == name) {
 			_class = el.class;
 		}
 	});
@@ -174,6 +191,35 @@ var sidebarIsOpen = false;
 var _focusedContentIndex = null;
 
 
+var contextMenu = document.getElementById("context-menu");
+var contextMenuIsOpen = false;
+
+
+document.body.addEventListener("click", function(event) {
+	if (event.target.id != "context-menu" && event.target.parentElement.id != "context-menu") {
+		contextMenuClose();
+	}
+});
+
+document.body.addEventListener("contextmenu", function(event) {
+	if (event.target.classList.contains("skript__line")) {
+		contextMenuOpen(event.clientX, event.clientY, [
+			{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
+			{ type: "seperator"},
+			{ label: "Change to", type: "category", children: elements.map((i) => { return {
+				label: i.prettyName,
+				color: "#6e7544",
+				callback: () => {changeTypeFromEvent(event, i.name)}
+			}})},
+			{ type: "seperator"},
+			{ label: "Duplicate", color: "#3d7882", callback: () => {duplicateElementFromEvent(event)} },
+			{ label: "Delete", color: "#8c3232", callback: () => {deleteElementFromEvent(event)} }
+		]);
+	} else {
+		contextMenuClose();
+	}
+});
+
 
 sidebarButton.addEventListener("click", function() {
 	sidebarIsOpen = !sidebarIsOpen;
@@ -182,14 +228,18 @@ sidebarButton.addEventListener("click", function() {
 		sidebar.style.left = "0";
 		sidebarButton.style.marginLeft = "200px";
 		sidebarButton.innerHTML = "<";
+		skriptEl.style.filter = "blur(3px) brightness(95%)";
 	} else {
 		sidebar.style.left = "-200px";
 		sidebarButton.style.marginLeft = "0px";
 		sidebarButton.innerHTML = ">";
+		skriptEl.style.filter = "";
 	}
 });
 
 window.listFiles("skripts", (files) => {
+	sidebar.innerHTML = "";
+
 	files.forEach((file, index) => {
 		let skriptProject = document.createElement("p");
 		skriptProject.classList.add("sidebar__skript");
