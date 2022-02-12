@@ -2,7 +2,7 @@
 
  📑 The modern screenplay software. Extendable, free, simple design. 📑
 
- ![](res/skriptus.png)
+ ![](res/skriptus_header_white.png)
 
 
 ## Table of Contents
