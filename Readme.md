@@ -2,6 +2,9 @@
 
  📑 The modern screenplay software. Extendable, free, simple design. 📑
 
+ ![](res/skriptus.png)
+
+
 ## Table of Contents
 * [Installation](#installation)
 * [First Steps](#first-steps)
@@ -20,7 +23,7 @@
 If you encounter any issues, please [open an issue](https;//github.com/nojasm/skriptus/issues)
 
 ## First Steps
-Every time
+See [the Wiki](https://github.com/nojasm/skriptus/wiki/Introduction) for a simple introduction.
 
 ## Features
 ### Elements
@@ -32,12 +35,11 @@ Every time
 - Action
 
 ## Extending Skriptus
-See 
+See [the Wiki](https://github.com/nojasm/skriptus/wiki/extending-) for instructions.
+
 
 
 ## Images
-![](res/skriptus.png)
-
 ![](res/app_1.png)
 
 ![](res/app_2.png)
