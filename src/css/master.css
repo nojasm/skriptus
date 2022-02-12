@@ -53,11 +53,13 @@ body {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 
-	padding: 5px;
+	padding: 7px;
 	margin-left: 0;
 
 	user-select: none;
 	cursor: pointer;
+
+	z-index: 98;
 
 	transition: 500ms;
 }
@@ -96,4 +98,6 @@ body {
 
 	padding: 50px;
 	margin: 25px auto 0 auto;
+
+	transition: 200ms;
 }
