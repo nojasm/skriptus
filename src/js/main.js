@@ -23,6 +23,8 @@ function createWindow() {
 		slashes: true
 	}));
 
+	win.setIcon(path.join(__dirname, "../../res/skriptus_small.png"));
+
 	require("@electron/remote/main").initialize();
 	require("@electron/remote/main").enable(win.webContents);
 }
