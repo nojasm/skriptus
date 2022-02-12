@@ -47,4 +47,4 @@ See [the Wiki](https://github.com/nojasm/skriptus/wiki/extending-) for instructi
 ![](res/app_3.png)
 
 ## ToDo
-See /res/ToDo.md
+See [ToDo.md](res/ToDo.md)
