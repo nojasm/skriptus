@@ -1,6 +1,3 @@
-var contextMenu = document.getElementById("context-menu");
-var contextMenuIsOpen = false;
-
 exports.contextMenuClose = function () {
 	contextMenuIsOpen = false;
 	contextMenu.style.display = "none";
@@ -68,28 +65,3 @@ exports.contextMenuOpen = function (posX, posY, options) {
 		}
 	});
 }
-
-document.body.addEventListener("click", function(event) {
-	if (event.target.id != "context-menu" && event.target.parentElement.id != "context-menu") {
-		contextMenuClose();
-	}
-});
-
-document.body.addEventListener("contextmenu", function(event) {
-	if (event.target.classList.contains("skript__line")) {
-		contextMenuOpen(event.clientX, event.clientY, [
-			{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
-			{ type: "seperator"},
-			{ label: "Change to", type: "category", children: elements.map((i) => { return {
-				label: i.name,
-				color: "#6e7544",
-				callback: () => {changeTypeFromEvent(event, i.name.toLowerCase())}
-			}})},
-			{ type: "seperator"},
-			{ label: "Duplicate", color: "#3d7882", callback: () => {duplicateElementFromEvent(event)} },
-			{ label: "Delete", color: "#8c3232", callback: () => {deleteElementFromEvent(event)} }
-		]);
-	} else {
-		contextMenuClose();
-	}
-});
