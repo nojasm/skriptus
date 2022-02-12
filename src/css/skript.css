@@ -2,11 +2,20 @@
 	display: block;
 	font-family: Lora;
 	font-size: 13px;
+	line-height: 17px;
 
 	border: none;
 
 	margin: 15px;
 	width: 100%;
+}
+
+.skript__line:empty {
+	background-color: #efe7e7;
+}
+
+.skript__line:focus {
+	background-color: #f7f7f7;
 }
 
 .skript__scene {
@@ -52,4 +61,5 @@
 .skript__transition {
 	text-align: right;
 	width: 50%;
+	margin-left: auto;
 }
