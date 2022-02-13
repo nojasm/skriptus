@@ -25,17 +25,17 @@
 	- [ ] Fonts
 	- [ ] Single page / Multiple pages
 - [ ] Shortcuts to change element type
-- [ ] Own element types?
-	- [ ] CSS
-	- [ ] Comes after ...
+- [X] Own element types?
+	- [X] CSS
+	- [X] Comes after ...
 - [X] Create Logo
-- [ ] Create Example skripts and images
-- [ ] Write a better readme
-	- [ ] Add install instructions
-	- [ ] Add configuration instructions (css)
-	- [ ] Add tutorial
-	- [ ] Add instructions for adding new elements
-	- [ ] Create Wiki on GitHub
+- [X] Create Example skripts and images
+- [X] Write a better readme
+	- [X] Add install instructions
+	- [X] Add configuration instructions (css)
+	- [X] Add tutorial
+	- [X] Add instructions for adding new elements
+	- [X] Create Wiki on GitHub
 - [ ] Add "About" page
 - [X] Make Logo smaller and add white background
 - [ ] BUG: Focus first element when creating a new skript
@@ -44,9 +44,9 @@
 	- [X] Delete element
 	- [X] Duplicate element
 - [X] Capitalize context-menu info label
-- [ ] Blur / Darken skript if sidebar is opened (Slowly)
+- [X] Blur / Darken skript if sidebar is opened (Slowly)
 - [X] BUG: Inserting a new paragraph leaves empty line
-- [ ] BUG: Inserting a new paragraph doesn't even work sometimes (e.g. on a scene element)
+- [X] (Somehow fixed itself?) BUG: Inserting a new paragraph doesn't even work sometimes (e.g. on a scene element)
 - [ ] Add key up and down feature
 - [X] Move functions from skriptus.js to context.js and utils.js
 - Elements to add
@@ -63,8 +63,8 @@
 - [ ] Export as PDF
 - [ ] BUG: Context Menu is wrongly positioned when scrolled
 - [ ] BUG: Removing element through backspace sets wrong focus
-- [ ] FEATURE: Pressing Backspace on element with curser at position 0
-- [ ] BUG: Inserting new paragraph after last element doesn't work
+- [ ] FEATURE: Pressing Backspace on element with cursor at position 0
+- [X] BUG: Inserting new paragraph after last element doesn't work
 - [ ] WEIRD: Empty dialogue line is smaller in height than a filled one
 - [X] FEATURE: Somehow find a way to see that there is an empty element
 - [ ] BUG: Empty skript doesn't have any way to add new elements
