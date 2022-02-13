@@ -2,6 +2,11 @@
 	outline: none;
 }
 
+::selection {
+	background-color: initial;
+	color: initial;
+}
+
 body {
 	background-color: #eee;
 	margin: 0;
@@ -100,4 +105,24 @@ body {
 	margin: 25px auto 0 auto;
 
 	transition: 200ms;
+}
+
+#selection {
+	position: fixed;
+
+	image-rendering: crisp-edges;
+
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+	left: 0;
+
+	inset: 0;
+
+	z-index: 90;
+	pointer-events: none;
+}
+
+.selection__selected {
+	background-color: #e8eef5;
 }
