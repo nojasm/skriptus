@@ -1,6 +1,7 @@
 const ipcRenderer = require("electron").ipcRenderer;
 const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
+const { skriptSettingsOpen, globalSettingsOpen } = require("./js/settings.js");
 
 
 
@@ -44,6 +45,14 @@ ipcRenderer.on("new", function() {
 	}
 
 	renderSkript();
+});
+
+ipcRenderer.on("open-skript-settings", function() {
+	skriptSettingsOpen();
+});
+
+ipcRenderer.on("open-general-settings", function() {
+	globalSettingsOpen();
 });
 
 
