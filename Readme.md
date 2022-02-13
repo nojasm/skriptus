@@ -11,7 +11,6 @@
 * [Features](#features)
 * [Extending Skriptus](#extending-skriptus)
 * [Images](#images)
-* [ToDo's and planned features](#ToDo)
 
 ## Installation
 1. Download or clone using `git clone https://github.com/nojasm/skriptus.git`
@@ -45,6 +44,3 @@ See [the Wiki](https://github.com/nojasm/skriptus/wiki/extending-) for instructi
 ![](res/app_2.png)
 
 ![](res/app_3.png)
-
-## ToDo
-See [ToDo.md](res/ToDo.md)
