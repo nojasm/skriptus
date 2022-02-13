@@ -50,6 +50,12 @@ ipcRenderer.on("new", function() {
 function renderSkript() {
 	skriptEl.innerHTML = "";
 
+	if (skript.content.length == 0)
+		skript.content.push({
+			type: "scene",
+			text: ""
+		});
+
 	document.getElementsByTagName("title")[0].innerHTML = "Skriptus (" + skript.name + ")";
 
 	skript.content.forEach((el, i) => {
