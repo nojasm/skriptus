@@ -296,7 +296,7 @@ function setSelectionBox(pos1, pos2) {
 	// Put box on ctx here
 	selectionCtx.fillStyle = "#77befd33";
 	selectionCtx.clearRect(0, 0, selectionEl.width, selectionEl.height);
-	selectionCtx.fillRect(pos1[0], pos1[1], pos2[0] - pos1[0], pos2[1] - pos1[1]);
+	selectionCtx.fillRect(pos1[0], pos1[1] - window.scrollY, pos2[0] - pos1[0], pos2[1] - pos1[1]);
 	//selectionCtx.fillRect(0, 0, 50, 50);
 
 	// Now mark everything between selectionStart and [x, y]
@@ -305,7 +305,7 @@ function setSelectionBox(pos1, pos2) {
 		let domEl = document.getElementsByClassName("skript__line")[i];
 		let rect = domEl.getBoundingClientRect();
 		let r = {};
-		r.x = pos1[0]; r.y = pos1[1]; r.width = pos2[0] - pos1[0]; r.height = pos2[1] - pos1[1];
+		r.x = pos1[0]; r.y = pos1[1] - window.scrollY; r.width = pos2[0] - pos1[0]; r.height = pos2[1] - pos1[1];
 
 		if (r.height < 0) {
 			r.y += r.height;
@@ -428,6 +428,7 @@ document.body.addEventListener("click", function(event) {
 document.body.addEventListener("contextmenu", function(event) {
 	if (event.target.classList.contains("skript__line")) {
 		if (selectedIndices.length <= 1) {
+			console.log(event.clientY);
 			contextMenuOpen(event.clientX, event.clientY, [
 				{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
 				{ type: "seperator"},

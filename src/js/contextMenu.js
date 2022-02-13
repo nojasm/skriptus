@@ -7,8 +7,8 @@ exports.contextMenuOpen = function (posX, posY, options) {
 	// options = [{label: ..., callback: ...}]
 
 	contextMenu.style.display = "initial";
-	contextMenu.style.left = posX + "px";
-	contextMenu.style.top = posY + "px";
+	contextMenu.style.left = posX + window.scrollX + "px";
+	contextMenu.style.top = posY + window.scrollY + "px";
 	contextMenuIsOpen = true;
 
 	contextMenu.innerHTML = "";
