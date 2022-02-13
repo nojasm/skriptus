@@ -34,7 +34,7 @@ See [the Wiki](https://github.com/nojasm/skriptus/wiki/Introduction) for a simpl
 - Action
 
 ## Extending Skriptus
-See [the Wiki](https://github.com/nojasm/skriptus/wiki/extending-) for instructions.
+See [the Wiki](https://github.com/nojasm/skriptus/wiki/Extending-Skriptus) for instructions.
 
 
 
