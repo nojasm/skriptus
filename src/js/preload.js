@@ -26,6 +26,19 @@ window.getStartupSkript = function () {
 	return window.getSkriptFile("./config/startup.skript");
 }
 
+window.getGlobalOptions = function () {
+	try {
+		console.log(String(fs.readFileSync("./config/settings.json")));
+		return JSON.parse(String(fs.readFileSync("./config/settings.json")));
+	} catch (e) {
+		return false;
+	}
+}
+
+window.setGlobalOptions = function (options) {
+	return fs.writeFileSync("./config/settings.json", JSON.stringify(options, null, "\t"));
+}
+
 window.openFileDialog = function () {
 	return dialog.showOpenDialogSync({
 		defaultPath: "./skripts",

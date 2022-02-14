@@ -1,9 +1,56 @@
-{
-
-	"skriptShadow": 5
-	"skriptShadowColor": "#ccc",
-	"elementSpacing": 5,
-	"sidebarBlur": 2,
-	"sidebarBrightness": 100,
-	"sidebarSmooth": true,
-}
+[
+	{
+		"label": "Skript shadow",
+		"vars": {
+			"--skript-shadow": "{value}px"
+		},
+		"type": "num",
+		"default": 8,
+		"value": 7
+	},
+	{
+		"label": "Skript shadow color",
+		"vars": {
+			"--skript-shadow-color": "{value}"
+		},
+		"type": "color",
+		"default": "#000",
+		"value": "#000"
+	},
+	{
+		"label": "Blur background if sidebar is open",
+		"vars": {
+			"--sidebar-background-blur": [
+				"3px",
+				"0px"
+			]
+		},
+		"type": "bool",
+		"default": true,
+		"value": true
+	},
+	{
+		"label": "Darken background if sidebar is open",
+		"vars": {
+			"--sidebar-background-darken": [
+				"95%",
+				"100%"
+			]
+		},
+		"type": "bool",
+		"default": true,
+		"value": true
+	},
+	{
+		"label": "Open sidebar smoothly",
+		"vars": {
+			"--sidebar-open-smoothly": [
+				"500ms",
+				"none"
+			]
+		},
+		"type": "bool",
+		"default": true,
+		"value": true
+	}
+]

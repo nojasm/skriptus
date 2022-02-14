@@ -1,7 +1,7 @@
 const ipcRenderer = require("electron").ipcRenderer;
 const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
-const { skriptSettingsOpen, globalSettingsOpen } = require("./js/settings.js");
+const { skriptSettingsOpen, globalSettingsOpen, reloadSettingsFromOptions } = require("./js/settings.js");
 
 
 
@@ -54,6 +54,8 @@ ipcRenderer.on("skript-settings", function() {
 ipcRenderer.on("global-settings", function() {
 	globalSettingsOpen();
 });
+
+reloadSettingsFromOptions(window.getGlobalOptions());
 
 
 function renderSkript() {
@@ -477,7 +479,7 @@ sidebarButton.addEventListener("click", function() {
 		sidebar.style.left = "0";
 		sidebarButton.style.marginLeft = "200px";
 		sidebarButton.innerHTML = "<";
-		skriptEl.style.filter = "blur(3px) brightness(95%)";
+		skriptEl.style.filter = "blur(var(--sidebar-background-blur)) brightness(var(--sidebar-background-brightness))";
 	} else {
 		sidebar.style.left = "-200px";
 		sidebarButton.style.marginLeft = "0px";
