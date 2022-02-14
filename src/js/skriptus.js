@@ -47,11 +47,11 @@ ipcRenderer.on("new", function() {
 	renderSkript();
 });
 
-ipcRenderer.on("open-skript-settings", function() {
+ipcRenderer.on("skript-settings", function() {
 	skriptSettingsOpen();
 });
 
-ipcRenderer.on("open-general-settings", function() {
+ipcRenderer.on("global-settings", function() {
 	globalSettingsOpen();
 });
 
