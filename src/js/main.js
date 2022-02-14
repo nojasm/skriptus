@@ -110,6 +110,12 @@ var template = [
 				click (item, focusedWindow) {
 					if (focusedWindow) focusedWindow.webContents.send("global-settings");
 				}
+			},
+			{
+				label: "Skript settings",
+				click (item, focusedWindow) {
+					if (focusedWindow) focusedWindow.webContents.send("skript-settings");
+				}
 			}
 		]
 	}
