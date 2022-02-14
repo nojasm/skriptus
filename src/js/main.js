@@ -100,6 +100,18 @@ var template = [
 				role: "resetzoom"
 			}
 		]
+	},
+	{
+		label: "Settings",
+		submenu: [
+			{
+				label: "Global settings",
+				accelerator: "CmdOrCtrl+,",
+				click (item, focusedWindow) {
+					if (focusedWindow) focusedWindow.webContents.send("global-settings");
+				}
+			}
+		]
 	}
 ]
 
