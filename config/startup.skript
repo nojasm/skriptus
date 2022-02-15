@@ -1,6 +1,6 @@
 {
-	"name": "Example Skript",
-	"GUID": "00000000000000000000000000000000",
+	"name": "Startup Skript",
+	"GUID": null,
 	"content": [
 		{
 			"type": "scene",
@@ -30,5 +30,6 @@
 			"type": "dialogue",
 			"text": "Haha, what a story Mark"
 		}
-	]
+	],
+	"css": []
 }
