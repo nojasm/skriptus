@@ -1,10 +1,15 @@
 const { dialog } = require("@electron/remote");
 const fs = require("fs");
+const path = require("path");
 
 
-window.getSkriptFile = function (path) {
+window.skriptusRoot = path.join(__dirname, "..", "..");
+
+window.getSkriptFile = function (skriptPath) {
+	skriptPath = path.join(window.skriptusRoot, skriptPath);
+
 	try {
-		return JSON.parse(fs.readFileSync(path));
+		return JSON.parse(fs.readFileSync(skriptPath));
 	} catch (e) {
 		return false;
 	}
@@ -18,30 +23,25 @@ window.writeSkriptFile = function (path, data) {
 	fs.writeFileSync(path, JSON.stringify(data, null, "\t"));
 }
 
-window.getElementsFromFile = function () {
-	return JSON.parse(String(fs.readFileSync("./config/elements.json")));
-}
-
 window.getStartupSkript = function () {
-	return window.getSkriptFile("./config/startup.skript");
+	return window.getSkriptFile("config/startup.skript");
 }
 
 window.getGlobalOptions = function () {
 	try {
-		console.log(String(fs.readFileSync("./config/settings.json")));
-		return JSON.parse(String(fs.readFileSync("./config/settings.json")));
+		return JSON.parse(String(fs.readFileSync(path.join(window.skriptusRoot, "config/settings.json"))));
 	} catch (e) {
 		return false;
 	}
 }
 
 window.setGlobalOptions = function (options) {
-	return fs.writeFileSync("./config/settings.json", JSON.stringify(options, null, "\t"));
+	return fs.writeFileSync(path.join(window.skriptusRoot, "config/settings.json"), JSON.stringify(options, null, "\t"));
 }
 
 window.openFileDialog = function () {
 	return dialog.showOpenDialogSync({
-		defaultPath: "./skripts",
+		defaultPath: path.join(window.skriptusRoot, "skripts"),
 		properties: ["openFile", "createDirectory"],
 		filters: [{ name: "Skriptus skript file", extensions: ["skript"] }]
 	});
@@ -49,7 +49,7 @@ window.openFileDialog = function () {
 
 window.saveFileDialog = function () {
 	return dialog.showSaveDialogSync({
-		defaultPath: "./skripts",
+		defaultPath: path.join(window.skriptusRoot, "skripts"),
 		properties: ["createDirectory"],
 		filters: [{ name: "Skriptus skript file", extensions: ["skript"] }]
 	});
