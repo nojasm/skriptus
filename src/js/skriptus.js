@@ -1,5 +1,5 @@
 const ipcRenderer = require("electron").ipcRenderer;
-const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap } = require("./js/utils.js");
+const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
 const { skriptSettingsOpen, globalSettingsOpen, reloadSettingsFromOptions } = require("./js/settings.js");
 
@@ -11,8 +11,6 @@ ipcRenderer.on("open", function() {
 	if (file != undefined) {
 		let data = window.getSkriptFile(file[0]);
 
-		console.log(file[0], data);
-
 		if (data != undefined) {
 			skriptPath = file[0];
 			loadSkript(data);
@@ -23,8 +21,6 @@ ipcRenderer.on("open", function() {
 
 ipcRenderer.on("save", function() {
 	// Check if file already exists
-
-	console.log(skriptPath, window.fileExists(skriptPath));
 
 	if (skriptPath == null || !window.fileExists(skriptPath))
 		skriptPath = window.saveFileDialog();
@@ -41,10 +37,12 @@ ipcRenderer.on("new", function() {
 		content: [
 			{ type: "scene",
 			  text: "" }
-		]
+		],
+		"css": []
 	}
 
 	renderSkript();
+	skriptSettingsOpen(newSkript=true);
 });
 
 ipcRenderer.on("skript-settings", function() {
@@ -55,7 +53,7 @@ ipcRenderer.on("global-settings", function() {
 	globalSettingsOpen();
 });
 
-reloadSettingsFromOptions(window.getGlobalOptions());
+reloadSettingsFromOptions(window.getGlobalOptions().css);
 
 
 function renderSkript() {
@@ -193,10 +191,19 @@ function duplicateElementFromEvent(event) {
 	let index = getChildIndex(event.target);
 	let el = skript.content[index];
 
-	skript.content = insertAt(skript.content, {
-		type: el.type,
-		text: el.text
-	}, index + 1);
+
+	if (index == skript.content.length - 1) {
+		skript.content.push({
+			type: el.type,
+			text: el.text
+		});
+	} else {
+		skript.content = insertAt(skript.content, {
+			type: el.type,
+			text: el.text
+		}, index + 1);
+	}
+
 
 	_focusedContentIndex = index + 1;
 
@@ -217,8 +224,8 @@ function deleteSelected() {
 }
 
 function duplicateSelected() {
-	// console.log("Insert", getSelectedElements(), "at index", selectedIndices[selectedIndices.length - 1]);
-	if (skript.content.length == selectedIndices.length) {
+	// If the last element was selected, append (push) to elements instead of insert
+	if (skript.content.length == selectedIndices[selectedIndices.length - 1] + 1) {
 		// Add
 		getSelectedElements().forEach((el, _) => {
 			skript.content.push(el);
@@ -237,7 +244,10 @@ function duplicateSelected() {
 
 
 var skript = window.getStartupSkript();
-var elements = window.getElementsFromFile();
+var elements = getElements();
+
+if (skript.GUID == null)
+	skript.GUID = genGUID();
 
 var sidebarButton = document.getElementById("sidebar__button");
 var sidebar = document.getElementById("sidebar");
@@ -439,7 +449,6 @@ document.body.addEventListener("click", function(event) {
 document.body.addEventListener("contextmenu", function(event) {
 	if (event.target.classList.contains("skript__line")) {
 		if (selectedIndices.length <= 1) {
-			console.log(event.clientY);
 			contextMenuOpen(event.clientX, event.clientY, [
 				{ label: getTypeFromClass(event.target.classList[1]), type: "info"},
 				{ type: "seperator"},
