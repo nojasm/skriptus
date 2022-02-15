@@ -49,6 +49,8 @@
 
 	padding: 5px;
 	margin: 15px 15px 15px 0;
+
+	user-select: none;
 }
 
 #small-window__close:hover {
@@ -63,6 +65,10 @@
 	display: grid;
 	grid-template-columns: 30% 30% auto;
 	grid-gap: 15px;
+}
+
+.small-window__input-row > *::selection {
+	background-color: #82bee8;
 }
 
 .small-window__label {
@@ -101,4 +107,11 @@
 	font-size: 15px;
 
 	margin: auto 0 auto 0;
+}
+
+.small-window__readonly {
+	font-family: Roboto;
+	font-size: 15px;
+
+	color: #888;
 }
