@@ -120,11 +120,7 @@ function renderSkript() {
 
 			line.addEventListener("keydown", function(event) {
 				if (event.key == "Backspace" && skript.content[elIndex].text == "") {
-					// Remove this element
-					delete skript.content[elIndex];
-					skriptContentDeleteUndefined();
-
-					renderSkript();
+					deleteElementFromEvent(event);
 				}
 			});
 
@@ -142,14 +138,24 @@ function renderSkript() {
 			line.addEventListener("focusout", function(event) {
 				event.target.classList.remove("text-selectable");
 			});
-
 		})(i)
-
 
 		skriptEl.appendChild(line);
 
+		// For focusing after element insert
 		if (i == _focusedContentIndex) {
 			line.focus();
+		}
+	});
+
+	// FFor focusing after element remove
+	[...skriptEl.children].forEach((line, i) => {
+		if (_nextToFocusIndex != null && i == _nextToFocusIndex) {
+			line.focus();
+			let _val = line.value;
+			line.value = "";
+			line.value = _val;
+			_nextToFocusIndex = null;
 		}
 	});
 }
@@ -210,6 +216,12 @@ function deleteElementFromEvent(event) {
 
 	delete skript.content[index];
 	skriptContentDeleteUndefined();
+
+	if (index == 0) {
+		_nextToFocusIndex = 0;
+	} else {
+		_nextToFocusIndex = index - 1;
+	}
 
 	renderSkript();
 }
@@ -286,6 +298,7 @@ var skriptEl = document.getElementById("skript");
 
 var sidebarIsOpen = false;
 var _focusedContentIndex = null;
+var _nextToFocusIndex = null;
 
 
 var contextMenu = document.getElementById("context-menu");
