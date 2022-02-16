@@ -1,7 +1,7 @@
 const { dialog } = require("@electron/remote");
 const fs = require("fs");
 const path = require("path");
-
+const os = require("os");
 
 window.skriptusRoot = path.join(__dirname, "..", "..");
 
@@ -56,11 +56,22 @@ window.saveFileDialog = function () {
 	});
 }
 
-window.listFiles = function (path, callback) {
-	fs.readdir(path, (err, files) => {
-		if (err)
+window.listFiles = function (rootPath, callback) {
+	if (!path.isAbsolute(rootPath))
+		rootPath = path.join(window.skriptusRoot, rootPath);
+
+	// Files:       "file-1", "file-2", ...
+	// Directories: {"dir": ["file-a", "file-b", ...]}
+	let tree = [];
+	fs.readdir(rootPath, (err, files) => {
+		if (err) {
 			callback([]);
-		else
+		} else {
+			files = files.filter((f) => {
+				f = path.join(rootPath, f);
+				return fs.lstatSync(f).isFile();
+			});
 			callback(files);
+		}
 	})
 }
