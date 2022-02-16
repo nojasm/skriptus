@@ -1,7 +1,8 @@
 const ipcRenderer = require("electron").ipcRenderer;
-const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements } = require("./js/utils.js");
+const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements, setSkriptName } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
 const { skriptSettingsOpen, globalSettingsOpen, reloadSettingsFromOptions } = require("./js/settings.js");
+const { importSkriptFountain, exportSkript } = require("./js/importExport.js");
 
 
 
@@ -28,7 +29,26 @@ ipcRenderer.on("save", function() {
 		window.writeSkriptFile(skriptPath, skript);
 
 		savedSkript = copyObject(skript);
+		reloadSidebar();
 		checkIfSaved();
+
+	} else {
+		skriptPath = null;
+	}
+});
+
+ipcRenderer.on("save-as", function() {
+	skriptPath = window.saveFileDialog();
+
+	if (skriptPath != undefined) {
+		window.writeSkriptFile(skriptPath, skript);
+
+		savedSkript = copyObject(skript);
+		reloadSidebar();
+		checkIfSaved();
+
+	} else {
+		skriptPath = null;
 	}
 });
 
@@ -44,10 +64,12 @@ ipcRenderer.on("new", function() {
 	}
 
 	savedSkript = null;
+	skriptPath = null;
 
 	renderSkript();
 	skriptSettingsOpen(newSkript=true);
 });
+
 
 ipcRenderer.on("skript-settings", function() {
 	skriptSettingsOpen();
@@ -56,6 +78,23 @@ ipcRenderer.on("skript-settings", function() {
 ipcRenderer.on("global-settings", function() {
 	globalSettingsOpen();
 });
+
+
+ipcRenderer.on("import-fountain", function() {
+	let data = importSkriptFountain();
+
+	if (data != undefined) {
+		skriptPath = null;
+		loadSkript(data);
+	} else {
+		// WARNING: Set info here: Fountain skript wasn't loaded correcly or is invalid
+	}
+});
+
+ipcRenderer.on("export", function() {
+	exportSkript();
+});
+
 
 reloadSettingsFromOptions(window.getGlobalOptions().css);
 
@@ -455,7 +494,8 @@ function getPrettyNameFromType(name) {
 
 function getCMInfoTextFromSelections() {
 	// If all of the selected elements are of the same type, this
-	// function will return this type. If not, it will return a "*" instead.
+	// function will return this type. If not, it will return a "*"
+	// with the number of selected elements instead.
 
 	let _type = null;
 	getSelectedElements().forEach((el, i) => {
@@ -468,6 +508,31 @@ function getCMInfoTextFromSelections() {
 		_type = getPrettyNameFromType(_type);
 
 	return _type + " (" + selectedIndices.length + ")"
+}
+
+function reloadSidebar() {
+	window.listFiles("skripts", (files) => {
+		sidebar.innerHTML = "";
+
+		files.forEach((file, index) => {
+			let skriptProject = document.createElement("p");
+			skriptProject.classList.add("sidebar__skript");
+
+			skriptData = getSkriptFile("skripts/" + file);
+			skriptProject.innerHTML = skriptData.name;
+
+			skriptProject.title = "skripts/" + file;
+
+			skriptProject.addEventListener("click", function() {
+				// Check if current skript is saved
+				if (skript.GUID != skriptData.GUID) {
+					loadSkript(skriptData);
+				}
+			});
+
+			sidebar.appendChild(skriptProject);
+		});
+	});
 }
 
 document.body.addEventListener("input", function() {
@@ -571,26 +636,8 @@ sidebarButton.addEventListener("click", function() {
 	}
 });
 
-window.listFiles("skripts", (files) => {
-	sidebar.innerHTML = "";
 
-	files.forEach((file, index) => {
-		let skriptProject = document.createElement("p");
-		skriptProject.classList.add("sidebar__skript");
 
-		skriptData = getSkriptFile("skripts/" + file);
-		skriptProject.innerHTML = skriptData.name;
-
-		skriptProject.addEventListener("click", function() {
-			// Check if current skript is saved
-			if (skript.GUID != skriptData.GUID) {
-				loadSkript(skriptData);
-			}
-		});
-
-		sidebar.appendChild(skriptProject);
-	});
-});
-
-skriptPath = null
+skriptPath = null;
+reloadSidebar();
 renderSkript();

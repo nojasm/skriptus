@@ -61,8 +61,28 @@ var template = [
 				label: "Save as",
 				accelerator: "CmdOrCtrl+Shift+S",
 				click (item, focusedWindow) {
-					if (focusedWindow) focusedWindow.webContents.send("saveas");
+					if (focusedWindow) focusedWindow.webContents.send("save-as");
 				}
+			},
+			{
+				type: "separator"
+			},
+			{
+				label: "Import (Fountain)",
+				accelerator: "CmdOrCtrl+E",
+				click (item, focusedWindow) {
+					if (focusedWindow) focusedWindow.webContents.send("import-fountain");
+				}
+			},
+			{
+				label: "Export",
+				accelerator: "CmdOrCtrl+E",
+				click (item, focusedWindow) {
+					if (focusedWindow) focusedWindow.webContents.send("export");
+				}
+			},
+			{
+				type: "separator"
 			},
 			{
 				role: "quit"
