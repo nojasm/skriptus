@@ -15,7 +15,6 @@ ipcRenderer.on("open", function() {
 			skriptPath = file[0];
 			loadSkript(data);
 		}
-
 	}
 });
 
@@ -27,6 +26,9 @@ ipcRenderer.on("save", function() {
 
 	if (skriptPath != undefined) {
 		window.writeSkriptFile(skriptPath, skript);
+
+		savedSkript = copyObject(skript);
+		checkIfSaved();
 	}
 });
 
@@ -40,6 +42,8 @@ ipcRenderer.on("new", function() {
 		],
 		"css": []
 	}
+
+	savedSkript = null;
 
 	renderSkript();
 	skriptSettingsOpen(newSkript=true);
@@ -65,7 +69,7 @@ function renderSkript() {
 			text: ""
 		});
 
-	document.getElementsByTagName("title")[0].innerHTML = "Skriptus (" + skript.name + ")";
+	checkIfSaved();
 
 	skript.content.forEach((el, i) => {
 		let line = document.createElement("p");
@@ -154,8 +158,13 @@ function getClassFromTypeName(name) {
 	return _class;
 }
 
+function copyObject(obj) {
+	return JSON.parse(JSON.stringify(obj));
+}
+
 function loadSkript(data) {
 	skript = data;
+	savedSkript = copyObject(skript);
 	renderSkript();
 }
 
@@ -244,10 +253,14 @@ function duplicateSelected() {
 
 
 var skript = window.getStartupSkript();
+var savedSkript = copyObject(skript);  // To test if file is unsaved. Set this to be the skript, to check for any changes
+
 var elements = getElements();
 
-if (skript.GUID == null)
+if (skript.GUID == null) {
 	skript.GUID = genGUID();
+	savedSkript.GUID = skript.GUID;
+}
 
 var sidebarButton = document.getElementById("sidebar__button");
 var sidebar = document.getElementById("sidebar");
@@ -386,6 +399,20 @@ function getSelectedElements() {
 	return se;
 }
 
+function checkIfSaved() {
+	let isSaved = false;
+
+	// Check if the current skript and a copy of that skript are identical.
+	// WARNING: May be slow on bigger skripts. Maybe check for their length first?
+	isSaved = JSON.stringify(skript) == JSON.stringify(savedSkript);
+
+	if (isSaved) {
+		document.getElementsByTagName("title")[0].innerHTML = "Skriptus (" + skript.name + ")";
+	} else {
+		document.getElementsByTagName("title")[0].innerHTML = "* Skriptus (" + skript.name + ") *";
+	}
+}
+
 function getPrettyNameFromType(name) {
 	let _name = "?";
 	elements.forEach((el, i) => {
@@ -412,6 +439,10 @@ function getCMInfoTextFromSelections() {
 	return _type + " (" + selectedIndices.length + ")"
 }
 
+document.body.addEventListener("input", function() {
+	checkIfSaved();
+});
+
 document.body.addEventListener("mousedown", function(event) {
 	if ((event.target.id != "context-menu" && event.target.parentElement.id != "context-menu" && event.target.parentElement.parentElement.id != "context-menu") &&
 		event.button == 0 && selectedIndices.length > 0) {
@@ -433,8 +464,10 @@ document.body.addEventListener("mouseup", function(event) {
 });
 
 document.body.addEventListener("mousemove", function(event) {
-	if (isSelecting) {
+	if (isSelecting && event.buttons === 1) {
 		setSelectionBox(selectionStart, [event.pageX, event.pageY])
+	} else if (event.buttons === 0) {
+		endSelection(event.pageX, event.pageY);
 	}
 });
 

@@ -61,7 +61,7 @@ exports.skriptSettingsOpen = function(newSkript=false) {
 	optionsListEl.innerHTML += `
 	<div class="small-window__input-row">
 		<label for="name" class="small-window__label">Skript name</label>
-		<input name="name" type="text" oninput="skript.name = this.value" class="small-window__input-text" placeholder="Skript name" value="` + skript.name + `">
+		<input name="name" type="text" oninput="skript.name = this.value; savedSkript.name = this.value" class="small-window__input-text" placeholder="Skript name" value="` + skript.name + `">
 	</div>
 	`
 
