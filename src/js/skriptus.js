@@ -69,6 +69,8 @@ function renderSkript() {
 			text: ""
 		});
 
+	selectedIndices = [];
+
 	checkIfSaved();
 
 	skript.content.forEach((el, i) => {
@@ -125,6 +127,22 @@ function renderSkript() {
 					renderSkript();
 				}
 			});
+
+
+			line.addEventListener("focus", function(event) {
+				if (isSelecting) {
+					// Don't focus event if only selecting
+					event.target.blur();
+				} else {
+					event.target.classList.add("text-selectable");
+				}
+
+			});
+
+			line.addEventListener("focusout", function(event) {
+				event.target.classList.remove("text-selectable");
+			});
+
 		})(i)
 
 
@@ -330,7 +348,7 @@ function setSelectionBox(pos1, pos2) {
 	// Put box on ctx here
 	selectionCtx.fillStyle = "#77befd33";
 	selectionCtx.clearRect(0, 0, selectionEl.width, selectionEl.height);
-	selectionCtx.fillRect(pos1[0], pos1[1] - window.scrollY, pos2[0] - pos1[0], pos2[1] - pos1[1]);
+	selectionCtx.fillRect(pos1[0] - window.scrollX, pos1[1] - window.scrollY, pos2[0] - pos1[0], pos2[1] - pos1[1]);
 	//selectionCtx.fillRect(0, 0, 50, 50);
 
 	// Now mark everything between selectionStart and [x, y]
@@ -510,6 +528,16 @@ document.body.addEventListener("contextmenu", function(event) {
 		}
 	} else {
 		contextMenuClose();
+	}
+});
+
+window.addEventListener("keydown", function(event) {
+	if (selectedIndices.length > 0) {
+		if (event.key == "Delete") {
+			deleteSelected();
+		} else if (event.ctrlKey && event.key == "d") {
+			duplicateSelected();
+		}
 	}
 });
 
