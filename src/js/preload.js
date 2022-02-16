@@ -6,7 +6,8 @@ const path = require("path");
 window.skriptusRoot = path.join(__dirname, "..", "..");
 
 window.getSkriptFile = function (skriptPath) {
-	skriptPath = path.join(window.skriptusRoot, skriptPath);
+	if (!path.isAbsolute(skriptPath))
+		skriptPath = path.join(skriptusRoot, skriptPath);
 
 	try {
 		return JSON.parse(fs.readFileSync(skriptPath));
