@@ -61,7 +61,7 @@ exports.getElements = function() {
 			"name": "character",
 			"prettyName": "Character",
 			"class": "skript__character",
-			"nextElement": "Dialogue"
+			"nextElement": "dialogue"
 		},
 		{
 			"name": "dialogue",
