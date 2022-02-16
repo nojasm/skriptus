@@ -9,6 +9,15 @@ exports.genGUID = function() {
 	return _GUID;
 }
 
+exports.setSkriptName = function(name) {
+	skript.name = name;
+	
+	if (savedSkript != null)
+		savedSkript.name = name;
+
+	reloadSidebar();
+}
+
 exports.insertAt = function(haystack, needle, index) {
 	let newHaystack = [];
 	haystack.forEach((item, i) => {
