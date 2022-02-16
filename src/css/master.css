@@ -22,6 +22,11 @@ body {
 	src: url("Roboto/Roboto-Light.ttf");
 }
 
+.text-selectable::selection {
+	background-color: #3f89de;
+	color: white;
+}
+
 #sidebar__wrapper {
 	width: 200px;
 	height: 100%;
@@ -124,5 +129,5 @@ body {
 }
 
 .selection__selected {
-	background-color: #e8eef5;
+	background-color: #e8eef5 !important;
 }
