@@ -233,6 +233,7 @@ function loadSkript(data) {
 	skript = data;
 	savedSkript = copyObject(skript);
 	renderSkript();
+	reloadSidebar();
 }
 
 
@@ -529,6 +530,9 @@ function reloadSidebar() {
 			skriptProject.setAttribute("guid", skriptData.GUID);
 
 			skriptProject.title = "skripts/" + file;
+
+			if (skriptData.GUID == skript.GUID)
+				skriptProject.style.borderLeft = "3px solid #7aa2a2";
 
 			skriptProject.addEventListener("click", function(event) {
 				// Check if current skript is saved
