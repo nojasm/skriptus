@@ -54,5 +54,13 @@
 			"default": true,
 			"value": true
 		}
+	],
+	"options": [
+		{
+			"label": "Split skript into pages on export (PDF only)",
+			"type": "bool",
+			"default": true,
+			"value": true
+		}
 	]
 }
