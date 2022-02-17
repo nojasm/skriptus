@@ -104,7 +104,7 @@ body {
 	box-shadow: 0 0 var(--skript-shadow) var(--skript-shadow-color);
 
 	width: 500px;
-	height: 800px;
+	min-height: 800px;
 
 	padding: 50px;
 	margin: 25px auto 0 auto;
@@ -130,4 +130,46 @@ body {
 
 .selection__selected {
 	background-color: #e8eef5 !important;
+}
+
+.import-export__option {
+	display: flex;
+
+	border: 1px solid #ccc;
+	border-radius: 5px;
+
+	height: 80px;
+	margin-bottom: 5px;
+
+	cursor: pointer;
+}
+
+.import-export__option:hover {
+	background-color: #f7f7f7;
+	border: 1px solid #aaa;
+}
+
+.import-export__option:active {
+	background-color: #f0f0f0;
+}
+
+
+.import-export__option__icon {
+	width: auto;
+	height: auto;
+	margin: 15px;
+}
+
+.import-export__option__title {
+	font-family: Roboto;
+	font-size: 25px;
+	text-align: center;
+	line-height: 80px;
+
+	flex-grow: 1;
+	align-content: center;
+
+	margin: 0;
+
+	user-select: none;
 }

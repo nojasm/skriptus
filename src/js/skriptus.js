@@ -2,8 +2,12 @@ const ipcRenderer = require("electron").ipcRenderer;
 const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements, setSkriptName } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
 const { skriptSettingsOpen, globalSettingsOpen, reloadSettingsFromOptions } = require("./js/settings.js");
-const { importSkriptFountain, exportSkript } = require("./js/importExport.js");
+const { importSkript, exportSkript } = require("./js/importExport.js");
+const { SmallWindow } = require("./js/smallWindow.js");
+const { jsPDF } = require("jspdf");
 
+
+smallWindow = new SmallWindow();
 
 
 ipcRenderer.on("open", function() {
@@ -80,14 +84,14 @@ ipcRenderer.on("global-settings", function() {
 });
 
 
-ipcRenderer.on("import-fountain", function() {
-	let data = importSkriptFountain();
+ipcRenderer.on("import", function() {
+	let data = importSkript();
 
 	if (data != undefined) {
 		skriptPath = null;
 		loadSkript(data);
 	} else {
-		// WARNING: Set info here: Fountain skript wasn't loaded correcly or is invalid
+		// WARNING: Set info here: Skript wasn't loaded correcly or is invalid
 	}
 });
 
@@ -96,7 +100,7 @@ ipcRenderer.on("export", function() {
 });
 
 
-reloadSettingsFromOptions(window.getGlobalOptions().css);
+reloadSettingsFromOptions(window.getGlobalOptions(), reloadCSSOnly=true);
 
 
 function renderSkript() {

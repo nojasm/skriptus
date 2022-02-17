@@ -24,6 +24,10 @@
 	text-transform: uppercase;
 }
 
+.skript__scene:not(:first-child) {
+	margin-top: 30px;
+}
+
 .skript__character {
 	text-transform: uppercase;
 	text-align: center;

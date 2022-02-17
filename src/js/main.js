@@ -68,10 +68,10 @@ var template = [
 				type: "separator"
 			},
 			{
-				label: "Import (Fountain)",
-				accelerator: "CmdOrCtrl+E",
+				label: "Import",
+				accelerator: "CmdOrCtrl+I",
 				click (item, focusedWindow) {
-					if (focusedWindow) focusedWindow.webContents.send("import-fountain");
+					if (focusedWindow) focusedWindow.webContents.send("import");
 				}
 			},
 			{
