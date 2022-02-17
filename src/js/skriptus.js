@@ -522,15 +522,19 @@ function reloadSidebar() {
 			let skriptProject = document.createElement("p");
 			skriptProject.classList.add("sidebar__skript");
 
+
 			skriptData = getSkriptFile("skripts/" + file);
+
 			skriptProject.innerHTML = skriptData.name;
+			skriptProject.setAttribute("guid", skriptData.GUID);
 
 			skriptProject.title = "skripts/" + file;
 
-			skriptProject.addEventListener("click", function() {
+			skriptProject.addEventListener("click", function(event) {
 				// Check if current skript is saved
-				if (skript.GUID != skriptData.GUID) {
-					loadSkript(skriptData);
+				if (skript.GUID != event.target.getAttribute("guid")) {
+					skriptPath = event.target.title;
+					loadSkript(getSkriptFile(event.target.title));
 				}
 			});
 
