@@ -14,7 +14,10 @@
         "@electron/remote": "^2.0.4",
         "electron": "^17.0.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.1"
+    },
     "build": {
         "appId": "com.nojasm.skriptus",
         "productName": "Skriptus",
