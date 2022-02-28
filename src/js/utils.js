@@ -11,7 +11,7 @@ exports.genGUID = function() {
 
 exports.setSkriptName = function(name) {
 	skript.name = name;
-	
+
 	if (savedSkript != null)
 		savedSkript.name = name;
 
@@ -58,43 +58,80 @@ exports.rectsDoOverlap = function(rect1, rect2) {
 	return (xOverlap && yOverlap);
 }
 
-exports.getElements = function() {
-	return [
-		{
-			"name": "scene",
-			"prettyName": "Scene",
-			"class": "skript__scene",
-			"nextElement": "character"
-		},
-		{
-			"name": "character",
-			"prettyName": "Character",
-			"class": "skript__character",
-			"nextElement": "dialogue"
-		},
-		{
-			"name": "dialogue",
-			"prettyName": "Dialogue",
-			"class": "skript__dialogue",
-			"nextElement": "dialogue"
-		},
-		{
-			"name": "parentheses",
-			"prettyName": "Parentheses",
-			"class": "skript__parentheses",
-			"nextElement": "dialogue"
-		},
-		{
-			"name": "action",
-			"prettyName": "Action",
-			"class": "skript__action",
-			"nextElement": "dialogue"
-		},
-		{
-			"name": "transition",
-			"prettyName": "Transition",
-			"class": "skript__transition",
-			"nextElement": "character"
-		}
-	];
+exports.getElements = function(mode) {
+	console.log(mode);
+	if (mode == "default") {
+		return [
+			{
+				"name": "scene",
+				"prettyName": "Scene",
+				"class": "skript__scene",
+				"nextElement": "character"
+			},
+			{
+				"name": "character",
+				"prettyName": "Character",
+				"class": "skript__character",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "dialogue",
+				"prettyName": "Dialogue",
+				"class": "skript__dialogue",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "parentheses",
+				"prettyName": "Parentheses",
+				"class": "skript__parentheses",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "action",
+				"prettyName": "Action",
+				"class": "skript__action",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "transition",
+				"prettyName": "Transition",
+				"class": "skript__transition",
+				"nextElement": "character"
+			}
+		];
+	} else if (mode == "video") {
+		return [
+			{
+				"name": "dialogue",
+				"prettyName": "Dialogue",
+				"class": "skript__dialogue",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "parentheses",
+				"prettyName": "Parentheses",
+				"class": "skript__parentheses",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "action",
+				"prettyName": "Action",
+				"class": "skript__action",
+				"nextElement": "dialogue"
+			},
+			{
+				"name": "transition",
+				"prettyName": "Transition",
+				"class": "skript__transition",
+				"nextElement": "character"
+			}
+		];
+	}
+}
+
+exports.fixSkript = function(s) {
+	if (s.mode == undefined)
+		s.mode = "default";
+
+	return s;
 }

@@ -13,6 +13,8 @@ exports.reloadSettingsFromOptions = function(options, reloadCSSOnly=false) {
 		return;
 
 	// Now also reload the other settings in <options.options> one at a time
+
+	// elements = options.mode;   <- Already gets set on change
 }
 
 exports.skriptSettingsOpen = function(newSkript=false) {
@@ -58,6 +60,36 @@ exports.skriptSettingsOpen = function(newSkript=false) {
 		<p name="guid" class="small-window__readonly">` + skript.GUID + `</p>
 	</div>
 	`
+
+	var modeRowEl = document.createElement("div");
+	var modeInputEl = document.createElement("select");
+	var modeLabelEl = document.createElement("option");
+
+	modeLabelEl.innerHTML = "Skript Mode";
+	modeInputEl.name = "skript-mode";
+	modeLabelEl.htmlFor = "skript-mode";
+
+	modeInputEl.innerHTML = `
+		<option value="default">Default</option>
+		<option value="video">Video</option>
+	`;
+
+	modeInputEl.value = skript.mode;
+
+	modeInputEl.onchange = (event) => {
+		skript.mode = event.target.value;
+		elements = getElements(skript.mode);
+	}
+
+	modeLabelEl.classList.add("small-window__label");
+	modeRowEl.classList.add("small-window__input-row");
+	modeInputEl.classList.add("small-window__input-select");
+
+	modeRowEl.appendChild(modeLabelEl);
+	modeRowEl.appendChild(modeInputEl);
+
+	// Add this row to the options list (small-window__body)
+	optionsListEl.appendChild(modeRowEl);
 
 	// Display every option label and input by its type in the [css] object of the skript file
 	skript.css.forEach((option, index) => {

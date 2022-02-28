@@ -1,5 +1,5 @@
 const ipcRenderer = require("electron").ipcRenderer;
-const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements, setSkriptName } = require("./js/utils.js");
+const { genGUID, insertAt, getTypeFromClass, getChildIndex, rectsDoOverlap, getElements, setSkriptName, fixSkript } = require("./js/utils.js");
 const { contextMenuOpen, contextMenuClose } = require("./js/contextMenu.js");
 const { skriptSettingsOpen, globalSettingsOpen, reloadSettingsFromOptions } = require("./js/settings.js");
 const { importSkript, exportSkript } = require("./js/importExport.js");
@@ -9,7 +9,6 @@ const { jsPDF } = require("jspdf");
 
 smallWindow = new SmallWindow();
 
-
 ipcRenderer.on("open", function() {
 	let file = window.openFileDialog();
 
@@ -18,6 +17,7 @@ ipcRenderer.on("open", function() {
 
 		if (data != undefined) {
 			skriptPath = file[0];
+			data = fixSkript(data);
 			loadSkript(data);
 		}
 	}
@@ -45,6 +45,7 @@ ipcRenderer.on("save-as", function() {
 	skriptPath = window.saveFileDialog();
 
 	if (skriptPath != undefined) {
+		skript.GUID = genGUID();
 		window.writeSkriptFile(skriptPath, skript);
 
 		savedSkript = copyObject(skript);
@@ -64,11 +65,14 @@ ipcRenderer.on("new", function() {
 			{ type: "scene",
 			  text: "" }
 		],
-		"css": []
+		"css": [],
+		"mode": "default"
 	}
 
 	savedSkript = null;
 	skriptPath = null;
+
+	skript = fixSkript(skript);
 
 	renderSkript();
 	skriptSettingsOpen(newSkript=true);
@@ -89,6 +93,7 @@ ipcRenderer.on("import", function() {
 
 	if (data != undefined) {
 		skriptPath = null;
+		data = fixSkript(data);
 		loadSkript(data);
 	} else {
 		// WARNING: Set info here: Skript wasn't loaded correcly or is invalid
@@ -162,6 +167,30 @@ function renderSkript() {
 			});
 
 			line.addEventListener("keydown", function(event) {
+				/*
+				if (skript.content[elIndex].type == "character") {
+					// Get list of all already used characters in skript
+					let characters = [];
+					skript.content.forEach((line, i) => {
+						if (i != elIndex && line.type == "character" && !characters.includes(line.text)) {
+							characters.push(line.text);
+						}
+					});
+
+					let cText = skript.content[elIndex].text;
+
+					// Find the one character to autocomplete
+					console.log("-----");
+					characters.forEach((char, i) => {
+						if (cText != "" && char.startsWith(cText)) {
+							console.log(cText);
+							console.log("How about " + char + "?");
+						}
+					});
+
+				}
+				*/
+
 				if (event.key == "Backspace" && skript.content[elIndex].text == "") {
 					deleteElementFromEvent(event);
 				}
@@ -222,6 +251,11 @@ function getClassFromTypeName(name) {
 		}
 	});
 
+	// If the type is not in <elements>, just use the first one
+	if (_class == "") {
+		_class = elements[0].class;
+	}
+
 	return _class;
 }
 
@@ -232,6 +266,8 @@ function copyObject(obj) {
 function loadSkript(data) {
 	skript = data;
 	savedSkript = copyObject(skript);
+	elements = getElements(skript.mode);
+
 	renderSkript();
 	reloadSidebar();
 }
@@ -272,6 +308,7 @@ function deleteElementFromEvent(event) {
 
 function duplicateElementFromEvent(event) {
 	let index = getChildIndex(event.target);
+
 	let el = skript.content[index];
 
 
@@ -327,9 +364,11 @@ function duplicateSelected() {
 
 
 var skript = window.getStartupSkript();
+skript = fixSkript(skript);
+
 var savedSkript = copyObject(skript);  // To test if file is unsaved. Set this to be the skript, to check for any changes
 
-var elements = getElements();
+var elements = getElements(skript.mode);
 
 if (skript.GUID == null) {
 	skript.GUID = genGUID();
@@ -538,7 +577,9 @@ function reloadSidebar() {
 				// Check if current skript is saved
 				if (skript.GUID != event.target.getAttribute("guid")) {
 					skriptPath = event.target.title;
-					loadSkript(getSkriptFile(event.target.title));
+					let sf = getSkriptFile(event.target.title);
+					sf = fixSkript(sf);
+					loadSkript(sf);
 				}
 			});
 
