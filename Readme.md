@@ -33,6 +33,10 @@ See [the Wiki](https://github.com/nojasm/skriptus/wiki/Introduction) for a simpl
 - Transition
 - Action
 
+### Different modes
+Skriptus currently has two modes: Default and video. When creating a skript in default mode, you have access to all the elements in skriptus. When using the video mode, the set of elements is reduced to simplify the process of creating videos (for YouTube for example).
+
+
 ## Extending Skriptus
 See [the Wiki](https://github.com/nojasm/skriptus/wiki/Extending-Skriptus) for instructions.
 
