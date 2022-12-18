@@ -28,7 +28,7 @@
 			},
 			"type": "bool",
 			"default": true,
-			"value": true
+			"value": false
 		},
 		{
 			"label": "Darken background if sidebar is open",
